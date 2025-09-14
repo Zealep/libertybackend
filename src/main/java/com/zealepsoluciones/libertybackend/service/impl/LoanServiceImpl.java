@@ -2,20 +2,13 @@ package com.zealepsoluciones.libertybackend.service.impl;
 
 import com.zealepsoluciones.libertybackend.model.entity.Installment;
 import com.zealepsoluciones.libertybackend.model.entity.Loan;
-import com.zealepsoluciones.libertybackend.model.enums.InstallmentStatus;
-import com.zealepsoluciones.libertybackend.model.enums.InterestType;
 import com.zealepsoluciones.libertybackend.model.enums.LoanStatus;
 import com.zealepsoluciones.libertybackend.repository.InstallmentRepository;
 import com.zealepsoluciones.libertybackend.repository.LoanRepository;
 import com.zealepsoluciones.libertybackend.service.InstallmentService;
 import com.zealepsoluciones.libertybackend.service.LoanService;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,7 +45,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public Loan getLoan(Long loanId) {
+    public Loan getById(Long loanId) {
         return loanRepository.findById(loanId)
                 .orElseThrow(() -> new RuntimeException("Loan not found"));
     }
@@ -63,8 +56,13 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
+    public Loan updateLoan(Loan loan) {
+        return null;
+    }
+
+    @Override
     public Loan cancelLoan(Long loanId) {
-        Loan loan = getLoan(loanId);
+        Loan loan = getById(loanId);
         if (loan.getStatus() == LoanStatus.CLOSED) {
             throw new RuntimeException("No se puede cancelar el prestamo cerrado");
         }
@@ -74,7 +72,7 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public Loan updateLoanStatus(Long loanId, LoanStatus status) {
-        Loan loan = getLoan(loanId);
+        Loan loan = getById(loanId);
         loan.setStatus(status);
         return loanRepository.save(loan);
     }
