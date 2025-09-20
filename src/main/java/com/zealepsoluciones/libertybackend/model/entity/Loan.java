@@ -1,4 +1,6 @@
 package com.zealepsoluciones.libertybackend.model.entity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.zealepsoluciones.libertybackend.model.enums.InterestType;
 import com.zealepsoluciones.libertybackend.model.enums.LoanStatus;
 import jakarta.persistence.*;
@@ -19,6 +21,7 @@ public class Loan {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonBackReference
     private Customer customer;
 
     private BigDecimal principal;           // Loan amount
@@ -34,6 +37,7 @@ public class Loan {
     private LocalDate disbursementDate;
 
     @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Installment> installments;
 }
 

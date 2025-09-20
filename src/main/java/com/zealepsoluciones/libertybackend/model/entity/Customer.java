@@ -1,5 +1,7 @@
 package com.zealepsoluciones.libertybackend.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.zealepsoluciones.libertybackend.model.enums.State;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -24,5 +26,7 @@ public class Customer {
     private State state;
 
     @OneToMany(mappedBy = "customer")
+    @JsonManagedReference
+    @JsonIgnore
     private List<Loan> loans;
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/loans")
+@RequestMapping("/api/loans")
 @RequiredArgsConstructor
 public class LoanController {
     private final LoanService loanService;
@@ -20,7 +20,7 @@ public class LoanController {
     @PostMapping
     public ResponseEntity<Loan> createLoan(@RequestBody Loan loan) {
         Loan savedLoan = loanService.createLoan(loan);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedLoan);
+        return ResponseEntity.ok(loan);
     }
 
     // Obtener préstamo por ID

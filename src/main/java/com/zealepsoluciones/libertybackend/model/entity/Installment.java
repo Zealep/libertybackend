@@ -1,4 +1,6 @@
 package com.zealepsoluciones.libertybackend.model.entity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zealepsoluciones.libertybackend.model.enums.InstallmentStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -28,6 +30,7 @@ public class Installment {
 
     @ManyToOne
     @JoinColumn(name = "loan_id")
+    @JsonBackReference
     private Loan loan;
 
     @OneToMany(mappedBy = "installment", cascade = CascadeType.ALL)
