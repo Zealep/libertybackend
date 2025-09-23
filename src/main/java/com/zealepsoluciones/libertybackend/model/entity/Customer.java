@@ -23,7 +23,7 @@ public class Customer {
     private String email;
     private String phone;
     @Enumerated(EnumType.STRING)
-    private State state;
+    private State state = State.ACTIVE;
 
     @OneToMany(mappedBy = "customer")
     @JsonManagedReference

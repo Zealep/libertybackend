@@ -1,5 +1,6 @@
 package com.zealepsoluciones.libertybackend.controller;
 
+import com.zealepsoluciones.libertybackend.model.dto.LoanDTO;
 import com.zealepsoluciones.libertybackend.model.entity.Loan;
 import com.zealepsoluciones.libertybackend.model.enums.LoanStatus;
 import com.zealepsoluciones.libertybackend.service.LoanService;
@@ -31,7 +32,7 @@ public class LoanController {
 
     // Listar todos los préstamos
     @GetMapping
-    public ResponseEntity<List<Loan>> getAllLoans() {
+    public ResponseEntity<List<LoanDTO>> getAllLoans() {
         return ResponseEntity.ok(loanService.getAllLoans());
     }
 

@@ -1,5 +1,7 @@
 package com.zealepsoluciones.libertybackend.service.impl;
 
+import com.zealepsoluciones.libertybackend.model.dto.CustomerDTO;
+import com.zealepsoluciones.libertybackend.model.dto.LoanDTO;
 import com.zealepsoluciones.libertybackend.model.entity.Installment;
 import com.zealepsoluciones.libertybackend.model.entity.Loan;
 import com.zealepsoluciones.libertybackend.model.enums.LoanStatus;
@@ -9,6 +11,7 @@ import com.zealepsoluciones.libertybackend.service.InstallmentService;
 import com.zealepsoluciones.libertybackend.service.LoanService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,10 +20,10 @@ public class LoanServiceImpl implements LoanService {
     private final LoanRepository loanRepository;
     private final InstallmentRepository installmentRepository;
     private final InstallmentService installmentService;
-    public LoanServiceImpl(LoanRepository loanRepository, InstallmentRepository installmentRepository) {
+    public LoanServiceImpl(LoanRepository loanRepository, InstallmentRepository installmentRepository, InstallmentService installmentService) {
         this.loanRepository = loanRepository;
         this.installmentRepository = installmentRepository;
-        this.installmentService = new InstallmentServiceImpl();
+        this.installmentService = installmentService;
     }
 
 
@@ -51,8 +54,27 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public List<Loan> getAllLoans() {
-        return (List<Loan>)loanRepository.findAll();
+    public List<LoanDTO> getAllLoans() {
+        return ((List<Loan>) loanRepository.findAll()).stream()
+                .map(loan -> new LoanDTO(
+                        loan.getId(),
+                        loan.getPrincipal(),
+                        loan.getMonthlyInterestRate(),
+                        loan.getTermMonths(),
+                        loan.getInterestType(),
+                        loan.getStatus(),
+                        loan.getDisbursementDate(),
+                        new CustomerDTO(
+                                loan.getCustomer().getId(),
+                                loan.getCustomer().getFirstName(),
+                                loan.getCustomer().getLastName(),
+                                loan.getCustomer().getDocumentNumber(),
+                                loan.getCustomer().getEmail(),
+                                loan.getCustomer().getPhone(),
+                                loan.getCustomer().getState()
+                        )
+                ))
+                .toList();
     }
 
     @Override
