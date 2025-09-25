@@ -62,8 +62,10 @@ public class LoanServiceImpl implements LoanService {
                         loan.getMonthlyInterestRate(),
                         loan.getTermMonths(),
                         loan.getInterestType(),
+                        loan.isShortTerm(),
                         loan.getStatus(),
                         loan.getDisbursementDate(),
+                        loan.getShortTermEndDate(),
                         new CustomerDTO(
                                 loan.getCustomer().getId(),
                                 loan.getCustomer().getFirstName(),

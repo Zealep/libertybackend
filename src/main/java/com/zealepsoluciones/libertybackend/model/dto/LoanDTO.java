@@ -12,8 +12,10 @@ public record LoanDTO(
     BigDecimal monthlyInterestRate,
     Integer termMonths,
     InterestType interestType,
+    boolean isShortTerm,
     LoanStatus status,
     LocalDate disbursementDate,
+    LocalDate shortTermEndDate,
     CustomerDTO customer
 ){
 }

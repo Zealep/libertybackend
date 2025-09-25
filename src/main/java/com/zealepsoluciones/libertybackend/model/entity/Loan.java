@@ -1,6 +1,7 @@
 package com.zealepsoluciones.libertybackend.model.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zealepsoluciones.libertybackend.model.enums.InterestType;
 import com.zealepsoluciones.libertybackend.model.enums.LoanStatus;
 import jakarta.persistence.*;
@@ -31,10 +32,14 @@ public class Loan {
     @Enumerated(EnumType.STRING)
     private InterestType interestType; // SIMPLE or FRENCH
 
+    @JsonProperty("isShortTerm")
+    private boolean isShortTerm;
+
     @Enumerated(EnumType.STRING)
     private LoanStatus status = LoanStatus.ACTIVE;
 
     private LocalDate disbursementDate;
+    private LocalDate shortTermEndDate;
 
     @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL)
     @JsonManagedReference
