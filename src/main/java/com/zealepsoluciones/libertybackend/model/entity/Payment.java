@@ -11,15 +11,16 @@ import java.time.LocalDate;
 @Setter
 @Entity
 public class Payment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private LocalDate paymentDate;
     private BigDecimal amount;
-
-    @Enumerated(EnumType.STRING)
-    private PaymentType type; // NORMAL, EARLY, EXTRA, LATE_FEE
+    private String referenceNumber;
+    private String paymentMethod; // e.g., CREDIT_CARD, BANK_TRANSFER
+    private String notes;
 
     @ManyToOne
     @JoinColumn(name = "installment_id")

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface InstallmentService {
     List<Installment> generateInstallments(Loan loan);
+    Installment getInstallmentById(Long installmentId);
 }

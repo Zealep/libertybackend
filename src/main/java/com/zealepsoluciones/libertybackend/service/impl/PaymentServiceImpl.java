@@ -6,37 +6,36 @@ import com.zealepsoluciones.libertybackend.model.enums.InstallmentStatus;
 import com.zealepsoluciones.libertybackend.model.enums.PaymentType;
 import com.zealepsoluciones.libertybackend.repository.InstallmentRepository;
 import com.zealepsoluciones.libertybackend.repository.PaymentRepository;
+import com.zealepsoluciones.libertybackend.service.InstallmentService;
 import com.zealepsoluciones.libertybackend.service.PaymentService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
     private final InstallmentRepository installmentRepository;
     private final PaymentRepository paymentRepository;
+    private final InstallmentService installmentService;
 
     public PaymentServiceImpl(InstallmentRepository installmentRepository,
-                          PaymentRepository paymentRepository) {
+                              PaymentRepository paymentRepository, InstallmentService installmentService) {
         this.installmentRepository = installmentRepository;
         this.paymentRepository = paymentRepository;
+        this.installmentService = installmentService;
     }
 
     @Override
-    public Payment registerPayment(Long installmentId, BigDecimal amount, PaymentType type) {
-        Installment installment = installmentRepository.findById(installmentId)
-                .orElseThrow(() -> new RuntimeException("Installment not found"));
+    @Transactional
+    public Payment registerPayment(Payment payment) {
 
-        Payment payment = new Payment();
-        payment.setInstallment(installment);
-        payment.setPaymentDate(LocalDate.now());
-        payment.setAmount(amount);
-        payment.setType(type);
-
-        paymentRepository.save(payment);
+        Payment p = paymentRepository.save(payment);
 
         // Actualizar saldo de la cuota
+        Installment installment = installmentService.getInstallmentById(p.getInstallment().getId());
         BigDecimal totalPaid = installment.getPayments().stream()
                 .map(Payment::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -48,10 +47,8 @@ public class PaymentServiceImpl implements PaymentService {
         } else {
             installment.setStatus(InstallmentStatus.PENDING);
         }
-
         installmentRepository.save(installment);
-
-        return payment;
+        return p;
     }
 
     @Override
@@ -63,22 +60,27 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Payment updatePayment(Long paymentId, BigDecimal newAmount, LocalDate newPaymentDate) {
-        Payment payment = paymentRepository.findById(paymentId)
-                .orElseThrow(() -> new RuntimeException("Payment not found"));
+    public Payment updatePayment(Payment payment) {
+        return null;
+    }
 
-        Installment installment = payment.getInstallment();
+    @Override
+    public List<Payment> getAllPayments() {
+        return List.of();
+    }
 
-        // revertir el pago anterior
-        installment.setRemainingBalance(installment.getRemainingBalance().add(payment.getAmount()));
+    @Override
+    public List<Payment> getPaymentsByInstallmentId(Long installmentId) {
+        return List.of();
+    }
 
-        // aplicar el nuevo pago
-        payment.setAmount(newAmount);
-        payment.setPaymentDate(newPaymentDate);
+    @Override
+    public Payment getPaymentById(Long paymentId) {
+        return null;
+    }
 
-        installment.setRemainingBalance(installment.getRemainingBalance().subtract(newAmount));
-
-        installmentRepository.save(installment);
-        return paymentRepository.save(payment);
+    @Override
+    public List<Payment> getPaymentsByLoanId(Long loanId) {
+        return paymentRepository.findPaymentsByLoanId(loanId);
     }
 }

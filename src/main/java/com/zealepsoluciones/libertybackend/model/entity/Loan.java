@@ -22,7 +22,6 @@ public class Loan {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    @JsonBackReference
     private Customer customer;
 
     private BigDecimal principal;           // Loan amount

@@ -34,6 +34,8 @@ public class Installment {
     private Loan loan;
 
     @OneToMany(mappedBy = "installment", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Payment> payments;
+
 }
 

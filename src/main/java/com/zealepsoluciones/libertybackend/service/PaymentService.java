@@ -5,9 +5,14 @@ import com.zealepsoluciones.libertybackend.model.enums.PaymentType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public interface PaymentService {
-    Payment registerPayment(Long installmentId, BigDecimal amount, PaymentType type);
+    Payment registerPayment(Payment payment);
     void deletePayment(Long paymentId);
-    Payment updatePayment(Long paymentId, BigDecimal newAmount, LocalDate newPaymentDate);
+    Payment updatePayment(Payment payment);
+    List<Payment> getAllPayments();
+    List<Payment> getPaymentsByInstallmentId(Long installmentId);
+    Payment getPaymentById(Long paymentId);
+    List<Payment> getPaymentsByLoanId(Long loanId);
 }

@@ -26,7 +26,6 @@ public class Customer {
     private State state = State.ACTIVE;
 
     @OneToMany(mappedBy = "customer")
-    @JsonManagedReference
     @JsonIgnore
     private List<Loan> loans;
 }

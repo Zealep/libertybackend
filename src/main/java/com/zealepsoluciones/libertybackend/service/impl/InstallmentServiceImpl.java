@@ -4,7 +4,9 @@ import com.zealepsoluciones.libertybackend.model.entity.Installment;
 import com.zealepsoluciones.libertybackend.model.entity.Loan;
 import com.zealepsoluciones.libertybackend.model.enums.InstallmentStatus;
 import com.zealepsoluciones.libertybackend.model.enums.InterestType;
+import com.zealepsoluciones.libertybackend.repository.InstallmentRepository;
 import com.zealepsoluciones.libertybackend.service.InstallmentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,7 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class InstallmentServiceImpl implements InstallmentService {
+
+    private final InstallmentRepository installmentRepository;
+
     @Override
     public List<Installment> generateInstallments(
             Loan loan
@@ -24,6 +30,11 @@ public class InstallmentServiceImpl implements InstallmentService {
         } else {
             return generateFrenchInterestInstallments(loan);
         }
+    }
+
+    @Override
+    public Installment getInstallmentById(Long installmentId) {
+        return installmentRepository.findById(installmentId).orElse(null);
     }
 
     /**
