@@ -15,6 +15,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category save(Category category) {
+        category.setActive(true);
         return categoryRepository.save(category);
     }
 
@@ -33,7 +34,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = this.findById(id);
         if(category != null){
             category.setActive(false);
-            this.save(category);
+            categoryRepository.save(category);
         }
     }
 }

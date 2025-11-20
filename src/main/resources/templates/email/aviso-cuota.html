@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* CSS sencillo y responsive */
+        body { font-family: Arial, sans-serif; background:#f6f6f6; margin:0; padding:0; }
+        .container { max-width:600px; margin:20px auto; background:#ffffff; border-radius:8px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+        .header { background:#0d6efd; color:#fff; padding:16px; text-align:center; }
+        .content { padding:20px; color:#333; }
+        .button { display:inline-block; padding:10px 16px; background:#0d6efd; color:#fff; text-decoration:none; border-radius:6px; }
+        .footer { font-size:12px; color:#777; padding:12px 20px; background:#fafafa; text-align:center; }
+        @media (max-width:480px){ .container{margin:10px} .content{padding:12px} }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h2 th:text="${title}">Recordatorio de cuota</h2>
+    </div>
+    <div class="content">
+        <p>Hola <strong th:text="${customerFirstName}">Cliente</strong>,</p>
+
+        <p th:if="${type == 'upcoming'}">
+            Tu cuota <strong>#<span th:text="${installmentNumber}">1</span></strong> del préstamo <strong th:text="${loanId}">123</strong> vence el <strong th:text="${dueDate}">2025-01-01</strong> por un monto de <strong th:text="${amount}">$100.00</strong>.
+        </p>
+
+        <p th:if="${type == 'overdue'}">
+            Tu cuota <strong>#<span th:text="${installmentNumber}">1</span></strong> del préstamo <strong th:text="${loanId}">123</strong> venció el <strong th:text="${dueDate}">2025-01-01</strong> por un monto de <strong th:text="${amount}">$100.00</strong>. Por favor regulariza el pago.
+        </p>
+
+        <! --
+        <p>
+            <a th:href="${actionUrl}" class="button">Ver detalle del préstamo</a>
+        </p>
+        -->
+
+        <p>Gracias,<br/>El equipo de Liberty</p>
+    </div>
+    <div class="footer">
+        Si no deseas recibir estos emails, actualiza tus preferencias en tu cuenta.
+    </div>
+</div>
+</body>
+</html>

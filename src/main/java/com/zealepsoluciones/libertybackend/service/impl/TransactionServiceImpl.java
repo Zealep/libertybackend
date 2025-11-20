@@ -17,6 +17,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction save(Transaction transaction) {
+        transaction.setActive(true);
         return transactionRepository.save(transaction);
     }
 
@@ -27,7 +28,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<Transaction> findAll() {
-        return (List<Transaction>)transactionRepository.findAll();
+        return (List<Transaction>)transactionRepository.findByActive(true);
     }
 
     @Override
@@ -35,12 +36,17 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction transaction = transactionRepository.findById(id).orElse(null);
         if(transaction != null){
             transaction.setActive(false);
-            this.save(transaction);
+            transactionRepository.save(transaction);
         }
     }
 
     @Override
     public List<Transaction> findByDateRange(String startDate, String endDate) {
         return transactionRepository.findByDateRange(LocalDate.parse(startDate),LocalDate.parse(endDate));
+    }
+
+    @Override
+    public List<Transaction> findByDateRangeAndType(String startDate, String endDate, String type) {
+        return transactionRepository.findByDateRangeAndType(LocalDate.parse(startDate),LocalDate.parse(endDate),type);
     }
 }

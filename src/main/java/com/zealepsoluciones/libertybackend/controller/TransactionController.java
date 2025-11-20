@@ -41,8 +41,14 @@ public class TransactionController {
     @GetMapping("/range")
     public ResponseEntity<List<Transaction>> findByDateRange(
             @RequestParam("start") String startDate,
-            @RequestParam("end") String endDate) {
-        List<Transaction> transactions = transactionService.findByDateRange(startDate, endDate);
+            @RequestParam("end") String endDate,
+            @RequestParam(value = "type",required = false) String type){
+
+        if(type == null || type.isEmpty()){
+            List<Transaction> transactions = transactionService.findByDateRange(startDate, endDate);
+            return ResponseEntity.ok(transactions);
+        }
+        List<Transaction> transactions = transactionService.findByDateRangeAndType(startDate, endDate, type);
         return ResponseEntity.ok(transactions);
     }
 

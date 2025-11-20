@@ -10,4 +10,5 @@ public interface TransactionService {
     List<Transaction> findAll();
     void delete(Long id);
     List<Transaction> findByDateRange(String startDate, String endDate);
+    List<Transaction> findByDateRangeAndType(String startDate, String endDate, String type);
 }
