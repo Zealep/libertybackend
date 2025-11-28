@@ -106,5 +106,83 @@ public class LoanServiceImpl implements LoanService {
         loanRepository.deleteById(loanId);
     }
 
+    @Override
+    public List<LoanDTO> findByStatusAndTerm(LoanStatus status, boolean term) {
+        return ((List<Loan>) loanRepository.findByStatusAndIsShortTerm(status,term)).stream()
+                .map(loan -> new LoanDTO(
+                        loan.getId(),
+                        loan.getPrincipal(),
+                        loan.getMonthlyInterestRate(),
+                        loan.getTermMonths(),
+                        loan.getInterestType(),
+                        loan.isShortTerm(),
+                        loan.getStatus(),
+                        loan.getDisbursementDate(),
+                        loan.getShortTermEndDate(),
+                        new CustomerDTO(
+                                loan.getCustomer().getId(),
+                                loan.getCustomer().getFirstName(),
+                                loan.getCustomer().getLastName(),
+                                loan.getCustomer().getDocumentNumber(),
+                                loan.getCustomer().getEmail(),
+                                loan.getCustomer().getPhone(),
+                                loan.getCustomer().getState()
+                        )
+                ))
+                .toList();
+    }
+
+    @Override
+    public List<LoanDTO> findByTerm(boolean term) {
+        return ((List<Loan>) loanRepository.findByIsShortTerm(term)).stream()
+                .map(loan -> new LoanDTO(
+                        loan.getId(),
+                        loan.getPrincipal(),
+                        loan.getMonthlyInterestRate(),
+                        loan.getTermMonths(),
+                        loan.getInterestType(),
+                        loan.isShortTerm(),
+                        loan.getStatus(),
+                        loan.getDisbursementDate(),
+                        loan.getShortTermEndDate(),
+                        new CustomerDTO(
+                                loan.getCustomer().getId(),
+                                loan.getCustomer().getFirstName(),
+                                loan.getCustomer().getLastName(),
+                                loan.getCustomer().getDocumentNumber(),
+                                loan.getCustomer().getEmail(),
+                                loan.getCustomer().getPhone(),
+                                loan.getCustomer().getState()
+                        )
+                ))
+                .toList();
+    }
+
+    @Override
+    public List<LoanDTO> findByStatus(LoanStatus status) {
+        return ((List<Loan>) loanRepository.findByStatus(status)).stream()
+                .map(loan -> new LoanDTO(
+                        loan.getId(),
+                        loan.getPrincipal(),
+                        loan.getMonthlyInterestRate(),
+                        loan.getTermMonths(),
+                        loan.getInterestType(),
+                        loan.isShortTerm(),
+                        loan.getStatus(),
+                        loan.getDisbursementDate(),
+                        loan.getShortTermEndDate(),
+                        new CustomerDTO(
+                                loan.getCustomer().getId(),
+                                loan.getCustomer().getFirstName(),
+                                loan.getCustomer().getLastName(),
+                                loan.getCustomer().getDocumentNumber(),
+                                loan.getCustomer().getEmail(),
+                                loan.getCustomer().getPhone(),
+                                loan.getCustomer().getState()
+                        )
+                ))
+                .toList();
+    }
+
 
 }

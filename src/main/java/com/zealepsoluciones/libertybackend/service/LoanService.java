@@ -14,4 +14,7 @@ public interface LoanService {
     Loan cancelLoan(Long loanId);
     Loan updateLoanStatus(Long loanId, LoanStatus status);
     void deleteLoan(Long loanId);
+    List<LoanDTO> findByStatusAndTerm(LoanStatus status, boolean term);
+    List<LoanDTO> findByTerm(boolean term);
+    List<LoanDTO> findByStatus(LoanStatus status);
 }

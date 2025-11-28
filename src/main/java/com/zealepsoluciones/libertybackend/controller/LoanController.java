@@ -57,4 +57,31 @@ public class LoanController {
             @RequestParam LoanStatus status) {
         return ResponseEntity.ok(loanService.updateLoanStatus(id, status));
     }
+
+    @GetMapping("/filters")
+    public ResponseEntity<List<LoanDTO>> getByFilters(
+            @RequestParam(required = false) LoanStatus status,
+            @RequestParam(required = false) String term) {
+
+        List<LoanDTO> loans;
+
+        if (status != null && term != null && !status.toString().isEmpty() && !term.isEmpty()) {
+            // Filtrar por ambos
+            boolean isShortTerm = "short".equalsIgnoreCase(term);
+            loans = loanService.findByStatusAndTerm(status, isShortTerm);
+        } else if (status != null && !status.toString().isEmpty()) {
+            // Solo filtrar por estado
+            loans = loanService.findByStatus(status);
+        } else if (term != null && !term.isEmpty()) {
+            // Solo filtrar por plazo
+            boolean isShortTerm = "short".equalsIgnoreCase(term);
+            loans = loanService.findByTerm(isShortTerm);
+        } else {
+            // Sin filtros, retornar todos
+            loans = loanService.getAllLoans();
+        }
+
+        return ResponseEntity.ok(loans);
+    }
+
 }
