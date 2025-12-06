@@ -3,7 +3,7 @@ package com.zealepsoluciones.libertybackend;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
-import com.zealepsoluciones.libertybackend.service.NotificationService;
+import com.zealepsoluciones.libertybackend.service.impl.NotificationEmailServiceImpl;
 
 public class ManualRunner {
     public static void main(String[] args) {
@@ -14,7 +14,7 @@ public class ManualRunner {
                 )
                 .run(args)) {
 
-            NotificationService notificationService = ctx.getBean(NotificationService.class);
+            NotificationEmailServiceImpl notificationService = ctx.getBean(NotificationEmailServiceImpl.class);
             notificationService.sendDailyInstallmentNotifications();
         }
     }

@@ -1,6 +1,7 @@
 package com.zealepsoluciones.libertybackend.scheduler;
 
 import com.zealepsoluciones.libertybackend.service.NotificationService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +10,7 @@ public class InstallmentNotificationScheduler {
 
     private final NotificationService notificationService;
 
-    public InstallmentNotificationScheduler(NotificationService notificationService) {
+    public InstallmentNotificationScheduler(@Qualifier("notificationWspService") NotificationService notificationService) {
         this.notificationService = notificationService;
     }
 
