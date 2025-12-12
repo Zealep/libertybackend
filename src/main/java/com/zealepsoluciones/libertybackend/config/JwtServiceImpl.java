@@ -30,7 +30,8 @@ public class JwtServiceImpl {
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
-                .claim("role", userDetails.getAuthorities().stream().findFirst().get().getAuthority())
+                //.claim("role", userDetails.getAuthorities().stream().findFirst().get().getAuthority())
+                .claim("role", "USER")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationInMillis))
                 .signWith(key, SignatureAlgorithm.HS256)
