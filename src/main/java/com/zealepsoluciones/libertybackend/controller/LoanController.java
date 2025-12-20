@@ -4,7 +4,9 @@ import com.zealepsoluciones.libertybackend.model.dto.LoanDTO;
 import com.zealepsoluciones.libertybackend.model.entity.Loan;
 import com.zealepsoluciones.libertybackend.model.enums.LoanStatus;
 import com.zealepsoluciones.libertybackend.service.LoanService;
+import com.zealepsoluciones.libertybackend.service.NotificationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LoanController {
     private final LoanService loanService;
+
+    private final NotificationService notificationWspService;
 
     // Crear un préstamo
     @PostMapping
@@ -58,6 +62,14 @@ public class LoanController {
         return ResponseEntity.ok(loanService.updateLoanStatus(id, status));
     }
 
+    // Actualizar campo sendNotificacion
+    @PatchMapping("/{id}/notification")
+    public ResponseEntity<Loan> updateSendNotificacion(
+            @PathVariable Long id,
+            @RequestParam String sendNotification) {
+        return ResponseEntity.ok(loanService.updateSendNotificacion(id, sendNotification));
+    }
+
     @GetMapping("/filters")
     public ResponseEntity<List<LoanDTO>> getByFilters(
             @RequestParam(required = false) LoanStatus status,
@@ -82,6 +94,12 @@ public class LoanController {
         }
 
         return ResponseEntity.ok(loans);
+    }
+
+    @GetMapping("/testNotification")
+    public ResponseEntity<Void> testNotification() {
+        notificationWspService.sendDailyInstallmentNotifications();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

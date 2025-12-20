@@ -17,4 +17,5 @@ public interface LoanService {
     List<LoanDTO> findByStatusAndTerm(LoanStatus status, boolean term);
     List<LoanDTO> findByTerm(boolean term);
     List<LoanDTO> findByStatus(LoanStatus status);
+    Loan updateSendNotificacion(Long loanId, String sendNotificacion);
 }

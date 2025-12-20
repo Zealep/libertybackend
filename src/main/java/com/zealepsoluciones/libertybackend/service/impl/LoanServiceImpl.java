@@ -184,5 +184,12 @@ public class LoanServiceImpl implements LoanService {
                 .toList();
     }
 
+    @Override
+    public Loan updateSendNotificacion(Long loanId, String sendNotificacion) {
+        Loan loan = getById(loanId);
+        loan.setSendNotificacion(sendNotificacion);
+        return loanRepository.save(loan);
+    }
+
 
 }

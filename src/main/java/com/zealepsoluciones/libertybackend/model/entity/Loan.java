@@ -40,7 +40,7 @@ public class Loan {
     private LocalDate disbursementDate;
     private LocalDate shortTermEndDate;
 
-    private String isNotificationSent;
+    private String sendNotificacion;
 
     @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL)
     @JsonManagedReference
